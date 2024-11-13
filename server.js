@@ -35,7 +35,10 @@ const server = http.createServer((req, res) => {
         parseFloat(params.gaindbi)
       );      
 
-      const cable_values = new rfexposure.CableValues(parseFloat(params.k1), parseFloat(params.k2));  
+      const cable_values = new rfexposure.CableValues(
+        parseFloat(params.k1), 
+        parseFloat(params.k2)
+      );  
 
       transmitter_power = parseInt(params.transmitterpower, 10);
 
