@@ -2,7 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const querystring = require('querystring');
 
 const rfexposure = require('./lib/rfexposure.js');
 
@@ -30,14 +29,13 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       const params = JSON.parse(body);
 
-      const freq_values = Object.create(rfexposure.FrequencyValues);
-      freq_values.freq = parseFloat(params.frequency);
-      freq_values.swr = parseFloat(params.swr);
-      freq_values.gaindbi = parseFloat(params.gaindbi);
+      const freq_values = new rfexposure.FrequencyValues(
+        parseFloat(params.frequency),
+        parseFloat(params.swr),
+        parseFloat(params.gaindbi)
+      );      
 
-      const cable_values = Object.create(rfexposure.CableValues);
-      cable_values.k1 = parseFloat(params.k1);
-      cable_values.k2 = parseFloat(params.k2);
+      const cable_values = new rfexposure.CableValues(parseFloat(params.k1), parseFloat(params.k2));  
 
       transmitter_power = parseInt(params.transmitterpower, 10);
 
