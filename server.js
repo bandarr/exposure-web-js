@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const rfexposure = require('./lib/rfexposure.js');
+const rfexposure = require('./src/rfexposure.js');
 
 const port = 8080;
 
@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
   const pathname = parsedUrl.pathname;
 
   if (req.method === 'GET' && pathname === '/') {
-    fs.readFile(path.join(__dirname, 'public', 'form.html'), (err, data) => {
+    fs.readFile(path.join(__dirname, 'public', 'index.html'), (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
@@ -21,6 +21,16 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end(data);
     });
+  } else if (req.method === 'GET' && pathname === '/styles.css') {
+    fs.readFile(path.join(__dirname, 'public', 'styles.css'), (err, data) => {
+      if (err) {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'text/css' });
+      res.end(data);
+    }); 
   } else if (req.method === 'POST' && pathname === '/submit') {
     let body = '';
     req.on('data', chunk => {
