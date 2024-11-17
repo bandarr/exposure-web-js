@@ -1,14 +1,17 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const url = require('url');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { FrequencyValues, CableValues, calc_uncontrolled_safe_distance } from './src/rfexposure.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const rfexposure = require('./src/rfexposure.js');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 const port = 8080;
 
 const server = http.createServer((req, res) => {
-  const parsedUrl = url.parse(req.url);
+  const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
   if (req.method === 'GET' && pathname === '/') {
@@ -55,13 +58,13 @@ server.listen(port, () => {
 });
 
 function calculateDistance(params) {
-  const freq_values = new rfexposure.FrequencyValues(
+  const freq_values = new FrequencyValues(
     parseFloat(params.frequency),
     parseFloat(params.swr),
     parseFloat(params.gaindbi)
   );
 
-  const cable_values = new rfexposure.CableValues(
+  const cable_values = new CableValues(
     parseFloat(params.k1),
     parseFloat(params.k2)
   );
@@ -74,7 +77,7 @@ function calculateDistance(params) {
 
   const uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
 
-  return rfexposure.calc_uncontrolled_safe_distance(
+  return calc_uncontrolled_safe_distance(
     freq_values,
     cable_values,
     transmitter_power,
