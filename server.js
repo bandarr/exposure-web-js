@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
       }
       res.writeHead(200, { 'Content-Type': 'text/css' });
       res.end(data);
-    }); 
+    });
   } else if (req.method === 'POST' && pathname === '/submit') {
     let body = '';
     req.on('data', chunk => {
@@ -39,33 +39,7 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       const params = JSON.parse(body);
 
-      const freq_values = new rfexposure.FrequencyValues(
-        parseFloat(params.frequency),
-        parseFloat(params.swr),
-        parseFloat(params.gaindbi)
-      );      
-
-      const cable_values = new rfexposure.CableValues(
-        parseFloat(params.k1), 
-        parseFloat(params.k2)
-      );  
-
-      transmitter_power = parseInt(params.transmitterpower, 10);
-
-      feedline_length = parseInt(params.feedlinelength, 10);
-
-      duty_cycle = parseFloat(params.dutycycle);
-
-      uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
-
-      const distance = rfexposure.calc_uncontrolled_safe_distance(
-        freq_values,
-        cable_values,
-        transmitter_power,
-        feedline_length,
-        duty_cycle,
-        uncontrolled_percentage_30_minutes
-      );
+const distance = calculateDistance(params);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ frequency: params.frequency, distance }));
@@ -79,3 +53,33 @@ const server = http.createServer((req, res) => {
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
+
+function calculateDistance(params) {
+  const freq_values = new rfexposure.FrequencyValues(
+    parseFloat(params.frequency),
+    parseFloat(params.swr),
+    parseFloat(params.gaindbi)
+  );
+
+  const cable_values = new rfexposure.CableValues(
+    parseFloat(params.k1),
+    parseFloat(params.k2)
+  );
+
+  let transmitter_power = parseInt(params.transmitterpower, 10);
+
+  let feedline_length = parseInt(params.feedlinelength, 10);
+
+  let duty_cycle = parseFloat(params.dutycycle);
+
+  let uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
+
+  return rfexposure.calc_uncontrolled_safe_distance(
+    freq_values,
+    cable_values,
+    transmitter_power,
+    feedline_length,
+    duty_cycle,
+    uncontrolled_percentage_30_minutes
+  );
+}
