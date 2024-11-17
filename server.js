@@ -66,13 +66,13 @@ function calculateDistance(params) {
     parseFloat(params.k2)
   );
 
-  let transmitter_power = parseInt(params.transmitterpower, 10);
+  const transmitter_power = parseInt(params.transmitterpower, 10);
 
-  let feedline_length = parseInt(params.feedlinelength, 10);
+  const feedline_length = parseInt(params.feedlinelength, 10);
 
-  let duty_cycle = parseFloat(params.dutycycle);
+  const duty_cycle = parseFloat(params.dutycycle);
 
-  let uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
+  const uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
 
   return rfexposure.calc_uncontrolled_safe_distance(
     freq_values,
