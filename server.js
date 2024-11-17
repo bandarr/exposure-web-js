@@ -1,9 +1,8 @@
 import http from 'http';
 import fs from 'fs';
-import path from 'path';
-import { FrequencyValues, CableValues, calc_uncontrolled_safe_distance } from './src/rfexposure.js';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path, {dirname} from 'path';
+import {CableValues, calc_uncontrolled_safe_distance, FrequencyValues} from './src/rfexposure.js';
+import {fileURLToPath} from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
