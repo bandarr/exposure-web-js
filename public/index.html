@@ -6,7 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Form</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <script src="listener.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector("form").addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target).entries());
+
+        fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          const resultField = document.getElementById("result");
+          resultField.innerHTML = data.error ? alert(data.error) : `Frequency: ${data.frequency}, Distance: ${data.distance}`;
+        })
+        .catch(console.error);
+      });
+    });
+  </script>
 </head>
 
 <body>

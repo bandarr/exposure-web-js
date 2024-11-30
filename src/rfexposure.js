@@ -1,3 +1,5 @@
+"use strict";
+
 export class FrequencyValues {
   constructor(freq, swr, gaindbi) {
     this.freq    = freq;

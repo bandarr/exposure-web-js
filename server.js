@@ -1,3 +1,5 @@
+"use strict";
+
 import http from 'http';
 import fs from 'fs';
 import path, {dirname} from 'path';
