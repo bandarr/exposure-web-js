@@ -42,10 +42,10 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       const params = JSON.parse(body);
 
-      const distance = calculateDistance(params);
+      const distance = calculateDistance(params).toFixed(2);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ frequency: params.frequency, distance }));
+      res.end(JSON.stringify({ frequency: params.frequency, distance: distance }));
     });
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
