@@ -33,6 +33,23 @@
   <div class="container">
     <h2>Input Your Parameters</h2>
     <form id="rfForm">
+      <h3>Power Values</h3>
+      <div class="form-group">
+        <label for="transmitterpower">Transmitter Power:</label>
+        <input type="text" id="transmitterpower" name="transmitterpower">
+      </div>
+      <div class="form-group">
+        <label for="feedlinelength">Feedline Length:</label>
+        <input type="text" id="feedlinelength" name="feedlinelength">
+      </div>
+      <div class="form-group">
+        <label for="dutycycle">Duty Cycle:</label>
+        <input type="text" id="dutycycle" name="dutycycle">
+      </div>
+      <div class="form-group">
+        <label for="uncontrolledpercentage30minutes">Uncontrolled Percentage (30 minutes):</label>
+        <input type="text" id="uncontrolledpercentage30minutes" name="uncontrolledpercentage30minutes">
+      </div>
       <h3>Cable Values</h3>
       <div class="form-group">
         <label for="k1">k1:</label>
@@ -51,27 +68,9 @@
         <label for="swr">SWR:</label>
         <input type="text" id="swr" name="swr">
       </div>
-      <h3>Antenna Parameters</h3>
       <div class="form-group">
         <label for="gaindbi">Gain (dBi):</label>
         <input type="text" id="gaindbi" name="gaindbi">
-      </div>
-      <h3>Additional Parameters</h3>
-      <div class="form-group">
-        <label for="transmitterpower">Transmitter Power:</label>
-        <input type="text" id="transmitterpower" name="transmitterpower">
-      </div>
-      <div class="form-group">
-        <label for="feedlinelength">Feedline Length:</label>
-        <input type="text" id="feedlinelength" name="feedlinelength">
-      </div>
-      <div class="form-group">
-        <label for="dutycycle">Duty Cycle:</label>
-        <input type="text" id="dutycycle" name="dutycycle">
-      </div>
-      <div class="form-group">
-        <label for="uncontrolledpercentage30minutes">Uncontrolled Percentage (30 minutes):</label>
-        <input type="text" id="uncontrolledpercentage30minutes" name="uncontrolledpercentage30minutes">
       </div>
       <button type="submit">Submit</button>
     </form>
