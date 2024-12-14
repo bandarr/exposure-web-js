@@ -34,6 +34,16 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/css' });
       res.end(data);
     });
+  } else if (req.method === 'GET' && pathname === '/script.js') {
+    fs.readFile(path.join(__dirname, 'public', 'script.js'), (err, data) => {
+      if (err) {
+        res.writeHead(404, {'Content-Type': 'text/plain'});
+        res.end('Not Found');
+        return;
+      }
+      res.writeHead(200, {'Content-Type': 'application/javascript'});
+      res.end(data);
+    });
   } else if (req.method === 'POST' && pathname === '/submit') {
     let body = '';
     req.on('data', chunk => {
