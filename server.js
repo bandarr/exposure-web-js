@@ -40,12 +40,10 @@ const server = http.createServer((req, res) => {
       body += chunk.toString();
     });
     req.on('end', () => {
-      const params = JSON.parse(body);
-
-      const distance = calculateDistance(params).toFixed(2);
-
+      const data = JSON.parse(body);
+      const distances = calculateDistances(data);
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ frequency: params.frequency, distance: distance }));
+      res.end(JSON.stringify(distances));
     });
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -57,12 +55,7 @@ server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
 
-function calculateDistance(params) {
-  const freq_values = new FrequencyValues(
-    parseFloat(params.frequency),
-    parseFloat(params.swr),
-    parseFloat(params.gaindbi)
-  );
+function calculateDistances(params) {
 
   const cable_values = new CableValues(
     parseFloat(params.k1),
@@ -77,12 +70,14 @@ function calculateDistance(params) {
 
   const uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
 
-  return calc_uncontrolled_safe_distance(
-    freq_values,
-    cable_values,
-    transmitter_power,
-    feedline_length,
-    duty_cycle,
-    uncontrolled_percentage_30_minutes
-  );
+  const yarg = params.frequencyValues.map(f => new FrequencyValues(parseFloat(f.frequency), parseFloat(f.swr), parseFloat(f.gaindbi)));
+
+  let distances = [];
+
+  yarg.forEach(freq_val => {
+    let distance = calc_uncontrolled_safe_distance(freq_val, cable_values, transmitter_power, feedline_length, duty_cycle, uncontrolled_percentage_30_minutes);
+    distances.push({frequency: freq_val.freq, distance: distance.toFixed( 2)});
+  });
+
+  return distances;
 }

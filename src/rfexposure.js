@@ -15,7 +15,7 @@ export class CableValues {
   }
 }
 
-// function dostuff() {
+//   Test values
 //   let xmtr_power = 1000;
 //   let feedline_length = 73;
 //   let duty_cycle = .5;
@@ -29,11 +29,6 @@ export class CableValues {
 //                               new FrequencyValues(24.99, 4.1, 1.5),
 //                               new FrequencyValues(29.7, 2.18, 4.5)];
 
-//   all_frequency_values.forEach(f => {
-//       let yarg = calc_uncontrolled_safe_distance(f, cable_values, xmtr_power, feedline_length, duty_cycle, per_30 );
-//       console.log(yarg);
-//   })
-// }
 
 /**
  * 
