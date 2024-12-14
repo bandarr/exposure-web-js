@@ -30,6 +30,17 @@
             delete data[`gaindbi_${index}`];
           }
         });
+
+        // Validate frequencyValues array
+        const isValid = frequencyValues.length > 0 && frequencyValues.every(fv =>
+                !isNaN(fv.frequency) && !isNaN(fv.swr) && !isNaN(fv.gaindbi)
+        );
+
+        if (!isValid) {
+          alert("Please enter valid numeric values for frequency, SWR, and gain (dBi).");
+          return;
+        }
+
         data.frequencyValues = frequencyValues;
 
         fetch("/submit", {
