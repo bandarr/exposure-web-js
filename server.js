@@ -14,47 +14,12 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  if (req.method === 'GET' && pathname === '/') {
-    fs.readFile(path.join(__dirname, 'public', 'index.html'), (err, data) => {
-      if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('Internal Server Error');
-        return;
-      }
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      res.end(data);
-    });
-  } else if (req.method === 'GET' && pathname === '/styles.css') {
-    fs.readFile(path.join(__dirname, 'public', 'styles.css'), (err, data) => {
-      if (err) {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Not Found');
-        return;
-      }
-      res.writeHead(200, { 'Content-Type': 'text/css' });
-      res.end(data);
-    });
-  } else if (req.method === 'GET' && pathname === '/script.js') {
-    fs.readFile(path.join(__dirname, 'public', 'script.js'), (err, data) => {
-      if (err) {
-        res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.end('Not Found');
-        return;
-      }
-      res.writeHead(200, {'Content-Type': 'application/javascript'});
-      res.end(data);
-    });
+  console.log(`Request for ${pathname} received.`);
+
+  if (req.method === 'GET') {
+    handleGetRequest(pathname, res);
   } else if (req.method === 'POST' && pathname === '/submit') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    req.on('end', () => {
-      const data = JSON.parse(body);
-      const distances = calculateDistances(data);
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(distances));
-    });
+    handlePostRequest(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
@@ -90,4 +55,47 @@ function calculateDistances(params) {
   });
 
   return distances;
+}
+
+function handleGetRequest(pathname, res) {
+  const fileTypes = {
+    '/': { fileName: 'index.html', type: 'text/html' },
+    '/styles.css': { fileName: 'styles.css', type: 'text/css' },
+    '/script.js': { fileName: 'script.js', type: 'application/javascript' }
+  };
+
+  const fileType = fileTypes[pathname];
+
+  if (fileType) {
+    serveStaticFile(fileType.fileName, fileType.type, res);
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
+}
+
+function serveStaticFile(fileName, type, res) {
+  fs.readFile(path.join(__dirname, 'public', fileName), (err, data) => {
+    if (err) {
+      const error = fileName === 'index.html' ? 500 : 404;
+      res.writeHead(error, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': type });
+    res.end(data);
+  });
+}
+
+function handlePostRequest(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const data = JSON.parse(body);
+    const distances = calculateDistances(data);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(distances));
+  });
 }
