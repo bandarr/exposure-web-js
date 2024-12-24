@@ -14,8 +14,6 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  console.log(`Request for ${pathname} received.`);
-
   if (req.method === 'GET') {
     handleGetRequest(pathname, res);
   } else if (req.method === 'POST' && pathname === '/submit') {

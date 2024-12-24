@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const frequencyValues = document.getElementById("frequencyValues");
     const newDiv = document.createElement("div");
     const uniqueId = frequencyValues.children.length;
-    newDiv.innerHTML = `<div class="form-group">
+    newDiv.innerHTML = `<div class="form-group" id="freq-val-set">
           <label for="frequency_${uniqueId}">Frequency:</label>
           <input type="text" id="frequency_${uniqueId}" name="frequency_${uniqueId}">
           <label for="swr_${uniqueId}">SWR:</label>
