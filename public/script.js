@@ -57,14 +57,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const frequencyValues = document.getElementById("frequencyValues");
     const newDiv = document.createElement("div");
     const uniqueId = frequencyValues.children.length;
-    newDiv.innerHTML = `<div class="form-group" id="freq-val-set">
-          <label for="frequency_${uniqueId}">Frequency:</label>
-          <input type="text" id="frequency_${uniqueId}" name="frequency_${uniqueId}">
-          <label for="swr_${uniqueId}">SWR:</label>
-          <input type="text" id="swr_${uniqueId}" name="swr_${uniqueId}">
-          <label for="gaindbi_${uniqueId}">Gain (dBi):</label>
-          <input type="text" id="gaindbi_${uniqueId}" name="gaindbi_${uniqueId}">
-          </div>`;
+    newDiv.innerHTML = `<div class="form-group" id="freq-val-set_${uniqueId}">
+        <label for="frequency_${uniqueId}">Frequency:</label>
+        <input type="text" id="frequency_${uniqueId}" name="frequency_${uniqueId}">
+        <label for="swr_${uniqueId}">SWR:</label>
+        <input type="text" id="swr_${uniqueId}" name="swr_${uniqueId}">
+        <label for="gaindbi_${uniqueId}">Gain (dBi):</label>
+        <input type="text" id="gaindbi_${uniqueId}" name="gaindbi_${uniqueId}">
+        <button type="button" id="removeFrequencyValueButton_${uniqueId}">Delete</button>
+        </div>`;
+
+    const button = newDiv.querySelector(`#removeFrequencyValueButton_${uniqueId}`);
+    button.addEventListener("click", () => {
+      const element = document.getElementById(`freq-val-set_${uniqueId}`);
+      element.remove();
+    });
+
     frequencyValues.appendChild(newDiv);
   });
+
 });
