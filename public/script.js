@@ -22,12 +22,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    const message_prefix = "Please enter a valid numeric value for";
+
+    // Validate power and cable values
+    const fieldsToValidate = ["TransmitterPower", "FeedlineLength", "DutyCycle", "K1", "K2", "UncontrolledPercentageThirtyMinutes", "DutyCycle"];
+    for (const field of fieldsToValidate) {
+      if (isNaN(data[field]) || data[field].length === 0) {
+      alert(message_prefix + field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()));
+      return;
+      }
+    }
+
     // Validate frequencyValues array
-    const isValid = frequencyValues.length > 0 && frequencyValues.every(fv =>
-      !isNaN(fv.frequency) && !isNaN(fv.swr) && !isNaN(fv.gaindbi)
+    const isFreqValValid = frequencyValues.length > 0 && frequencyValues.every(fv =>
+      (fv.frequency > 0 && !isNaN(fv.frequency)) && 
+      (fv.swr.length > 0 && !isNaN(fv.swr)) && 
+      (fv.gaindbi.length > 0 && !isNaN(fv.gaindbi))
     );
 
-    if (!isValid) {
+    if (!isFreqValValid) {
       alert("Please enter valid numeric values for frequency, SWR, and gain (dBi).");
       return;
     }
@@ -75,5 +88,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     frequencyValues.appendChild(newDiv);
   });
-
 });

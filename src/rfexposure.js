@@ -9,9 +9,9 @@ export class FrequencyValues {
 }
 
 export class CableValues {
-  constructor(k1, k2) {
-      this.k1 = k1;
-      this.k2 = k2;
+  constructor(K1, K2) {
+      this.K1 = K1;
+      this.K2 = K2;
   }
 }
 
@@ -87,7 +87,7 @@ function calc_feedline_loss_for_matched_load_at_frequency_percentage(feedline_lo
 }
 
 function calc_feedline_loss_per_100ft_at_frequency(freq_values, cable_values) {
-  return cable_values.k1 * Math.sqrt(freq_values.freq + cable_values.k2 * freq_values.freq);
+  return cable_values.K1 * Math.sqrt(freq_values.freq + cable_values.K2 * freq_values.freq);
 }
 
 function calc_feedline_loss_for_swr(feedline_loss_for_matched_load_percentage, gamma_squared) {

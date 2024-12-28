@@ -31,19 +31,20 @@ server.listen(port, () => {
 function calculateDistances(params) {
 
   const cable_values = new CableValues(
-    parseFloat(params.k1),
-    parseFloat(params.k2)
+    parseFloat(params.K1),
+    parseFloat(params.K2)
   );
 
-  const transmitter_power = parseInt(params.transmitterpower, 10);
+  const transmitter_power = parseInt(params.TransmitterPower, 10);
 
-  const feedline_length = parseInt(params.feedlinelength, 10);
+  const feedline_length = parseInt(params.FeedlineLength, 10);
 
-  const duty_cycle = parseFloat(params.dutycycle);
+  const duty_cycle = parseFloat(params.DutyCycle);
 
-  const uncontrolled_percentage_30_minutes = parseFloat(params.uncontrolledpercentage30minutes);
+  const uncontrolled_percentage_30_minutes = parseFloat(params.UncontrolledPercentageThirtyMinutes);
 
-  const yarg = params.frequencyValues.map(f => new FrequencyValues(parseFloat(f.frequency), parseFloat(f.swr), parseFloat(f.gaindbi)));
+  const yarg = params.frequencyValues.map(f => new FrequencyValues(
+    parseFloat(f.frequency), parseFloat(f.swr), parseFloat(f.gaindbi)));
 
   let distances = [];
 
