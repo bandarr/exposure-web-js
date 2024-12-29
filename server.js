@@ -43,12 +43,12 @@ function calculateDistances(params) {
 
   const uncontrolled_percentage_30_minutes = parseFloat(params.UncontrolledPercentageThirtyMinutes);
 
-  const yarg = params.frequencyValues.map(f => new FrequencyValues(
+  let distances = [];
+  
+  const frequency_values = params.frequencyValues.map(f => new FrequencyValues(
     parseFloat(f.frequency), parseFloat(f.swr), parseFloat(f.gaindbi)));
 
-  let distances = [];
-
-  yarg.forEach(freq_val => {
+  frequency_values.forEach(freq_val => {
     let distance = calc_uncontrolled_safe_distance(freq_val, cable_values, transmitter_power, feedline_length, duty_cycle, uncontrolled_percentage_30_minutes);
     distances.push({frequency: freq_val.freq, distance: distance.toFixed( 2)});
   });
