@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const fieldsToValidate = ["TransmitterPower", "FeedlineLength", "DutyCycle", "K1", "K2", "UncontrolledPercentageThirtyMinutes", "DutyCycle"];
     for (const field of fieldsToValidate) {
       if (isNaN(data[field]) || data[field].length === 0) {
-      alert(message_prefix + field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()));
+      alert(message_prefix + field.replace(/([A-Z])/g, ' $1'));
       return;
       }
     }
